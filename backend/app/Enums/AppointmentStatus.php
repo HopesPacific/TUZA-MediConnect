@@ -2,42 +2,45 @@
 
 namespace App\Enums;
 
-/**
- * Represents all possible states in the appointment lifecycle.
- */
-enum AppointmentStatus: string
+final class AppointmentStatus
 {
-    case Pending      = 'pending';
-    case Confirmed    = 'confirmed';
-    case Rescheduled  = 'rescheduled';
-    case Completed    = 'completed';
-    case Cancelled    = 'cancelled';
-    case Rejected     = 'rejected';
+    const PENDING     = 'pending';
+    const CONFIRMED   = 'confirmed';
+    const RESCHEDULED = 'rescheduled';
+    const COMPLETED   = 'completed';
+    const CANCELLED   = 'cancelled';
+    const REJECTED    = 'rejected';
 
-    public function label(): string
+    const ALL = [
+        self::PENDING, self::CONFIRMED, self::RESCHEDULED,
+        self::COMPLETED, self::CANCELLED, self::REJECTED,
+    ];
+
+    public static function label(string $status): string
     {
-        return match($this) {
-            AppointmentStatus::Pending     => 'Pending',
-            AppointmentStatus::Confirmed   => 'Confirmed',
-            AppointmentStatus::Rescheduled => 'Rescheduled',
-            AppointmentStatus::Completed   => 'Completed',
-            AppointmentStatus::Cancelled   => 'Cancelled',
-            AppointmentStatus::Rejected    => 'Rejected',
+        return match($status) {
+            self::PENDING     => 'Pending',
+            self::CONFIRMED   => 'Confirmed',
+            self::RESCHEDULED => 'Rescheduled',
+            self::COMPLETED   => 'Completed',
+            self::CANCELLED   => 'Cancelled',
+            self::REJECTED    => 'Rejected',
+            default           => 'Unknown',
         };
     }
 
-    /**
-     * Returns the CSS/badge color class for UI display.
-     */
-    public function color(): string
+    public static function color(string $status): string
     {
-        return match($this) {
-            AppointmentStatus::Pending     => 'yellow',
-            AppointmentStatus::Confirmed   => 'blue',
-            AppointmentStatus::Rescheduled => 'purple',
-            AppointmentStatus::Completed   => 'green',
-            AppointmentStatus::Cancelled   => 'gray',
-            AppointmentStatus::Rejected    => 'red',
+        return match($status) {
+            self::PENDING     => 'yellow',
+            self::CONFIRMED   => 'blue',
+            self::RESCHEDULED => 'purple',
+            self::COMPLETED   => 'green',
+            self::CANCELLED   => 'gray',
+            self::REJECTED    => 'red',
+            default           => 'gray',
         };
     }
+
+    private function __construct() {}
 }

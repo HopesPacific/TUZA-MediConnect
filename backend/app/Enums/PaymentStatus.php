@@ -2,22 +2,30 @@
 
 namespace App\Enums;
 
-enum PaymentStatus: string
+final class PaymentStatus
 {
-    case Pending    = 'pending';
-    case Successful = 'successful';
-    case Failed     = 'failed';
-    case Cancelled  = 'cancelled';
-    case Refunded   = 'refunded';
+    const PENDING    = 'pending';
+    const SUCCESSFUL = 'successful';
+    const FAILED     = 'failed';
+    const CANCELLED  = 'cancelled';
+    const REFUNDED   = 'refunded';
 
-    public function label(): string
+    const ALL = [
+        self::PENDING, self::SUCCESSFUL, self::FAILED,
+        self::CANCELLED, self::REFUNDED,
+    ];
+
+    public static function label(string $status): string
     {
-        return match($this) {
-            PaymentStatus::Pending    => 'Pending',
-            PaymentStatus::Successful => 'Successful',
-            PaymentStatus::Failed     => 'Failed',
-            PaymentStatus::Cancelled  => 'Cancelled',
-            PaymentStatus::Refunded   => 'Refunded',
+        return match($status) {
+            self::PENDING    => 'Pending',
+            self::SUCCESSFUL => 'Successful',
+            self::FAILED     => 'Failed',
+            self::CANCELLED  => 'Cancelled',
+            self::REFUNDED   => 'Refunded',
+            default          => 'Unknown',
         };
     }
+
+    private function __construct() {}
 }

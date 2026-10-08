@@ -3,24 +3,31 @@
 namespace App\Enums;
 
 /**
- * Defines the user roles available in the Tuza MediConnect platform.
- * Using string-backed enum for readable values in the database.
+ * User role constants.
+ * PHP 8.0 compatible — uses a final class with constants instead of enum.
+ * Usage: UserRole::PATIENT, UserRole::FACILITY_STAFF, UserRole::ADMINISTRATOR
  */
-enum UserRole: string
+final class UserRole
 {
-    case Patient          = 'patient';
-    case FacilityStaff    = 'facility_staff';
-    case Administrator    = 'administrator';
+    const PATIENT        = 'patient';
+    const FACILITY_STAFF = 'facility_staff';
+    const ADMINISTRATOR  = 'administrator';
 
-    /**
-     * Human-readable label for display in the UI.
-     */
-    public function label(): string
+    const ALL = [
+        self::PATIENT,
+        self::FACILITY_STAFF,
+        self::ADMINISTRATOR,
+    ];
+
+    public static function label(string $role): string
     {
-        return match($this) {
-            UserRole::Patient       => 'Patient',
-            UserRole::FacilityStaff => 'Healthcare Staff',
-            UserRole::Administrator => 'Administrator',
+        return match($role) {
+            self::PATIENT        => 'Patient',
+            self::FACILITY_STAFF => 'Healthcare Staff',
+            self::ADMINISTRATOR  => 'Administrator',
+            default              => 'Unknown',
         };
     }
+
+    private function __construct() {} // prevent instantiation
 }
