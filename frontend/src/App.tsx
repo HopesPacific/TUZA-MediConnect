@@ -17,7 +17,9 @@ import FacilitiesPage      from '@/pages/patient/FacilitiesPage'
 import ProfilePage         from '@/pages/patient/ProfilePage'
 
 // Facility staff
-import FacilityDashboard from '@/pages/facility/FacilityDashboard'
+import FacilityDashboard      from '@/pages/facility/FacilityDashboard'
+import FacilityAppointmentsPage from '@/pages/facility/FacilityAppointmentsPage'
+import FacilityProfilePage    from '@/pages/facility/FacilityProfilePage'
 
 // Admin
 import AdminDashboard from '@/pages/admin/AdminDashboard'
@@ -47,7 +49,9 @@ export default function App() {
 
       {/* ── Facility Staff ────────────────────────────────────────── */}
       <Route path="/facility" element={<ProtectedRoute allowedRoles={['facility_staff']} />}>
-        <Route path="dashboard" element={<FacilityDashboard />} />
+        <Route path="dashboard"    element={<FacilityDashboard />} />
+        <Route path="appointments" element={<FacilityAppointmentsPage />} />
+        <Route path="profile"      element={<FacilityProfilePage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
 

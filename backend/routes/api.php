@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Facility\FacilityAppointmentController;
+use App\Http\Controllers\Api\Facility\FacilityDashboardController;
+use App\Http\Controllers\Api\Facility\FacilityProfileController;
 use App\Http\Controllers\Api\Patient\AppointmentController;
 use App\Http\Controllers\Api\Patient\DashboardController;
 use App\Http\Controllers\Api\Patient\FacilityBrowseController;
@@ -56,8 +59,26 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::patch('{appointment}/cancel', [AppointmentController::class, 'cancel'])->name('cancel');
         });
 
-        // ── Facility Staff (Phase 5) ──────────────────────────────────────────
-        // Route::middleware('role:facility_staff')->prefix('facility')->name('facility.')->group(function () { });
+        // ── Facility Staff ────────────────────────────────────────────────────
+        Route::middleware('role:facility_staff')->prefix('facility')->name('facility.')->group(function () {
+            // Dashboard
+            Route::get('dashboard',                                        FacilityDashboardController::class)->name('dashboard');
+            // Profile & services
+            Route::get('profile',                                          [FacilityProfileController::class, 'show'])->name('profile');
+            Route::put('profile',                                          [FacilityProfileController::class, 'update'])->name('profile.update');
+            Route::get('services',                                         [FacilityProfileController::class, 'listServices'])->name('services.index');
+            Route::post('services/{serviceId}',                            [FacilityProfileController::class, 'addService'])->name('services.add');
+            Route::delete('services/{serviceId}',                          [FacilityProfileController::class, 'removeService'])->name('services.remove');
+            Route::patch('services/{serviceId}/toggle',                    [FacilityProfileController::class, 'toggleService'])->name('services.toggle');
+            // Appointment management
+            Route::get('appointments/stats',                               [FacilityAppointmentController::class, 'stats'])->name('appointments.stats');
+            Route::get('appointments',                                     [FacilityAppointmentController::class, 'index'])->name('appointments.index');
+            Route::get('appointments/{appointment}',                       [FacilityAppointmentController::class, 'show'])->name('appointments.show');
+            Route::patch('appointments/{appointment}/confirm',             [FacilityAppointmentController::class, 'confirm'])->name('appointments.confirm');
+            Route::patch('appointments/{appointment}/reject',              [FacilityAppointmentController::class, 'reject'])->name('appointments.reject');
+            Route::patch('appointments/{appointment}/reschedule',          [FacilityAppointmentController::class, 'reschedule'])->name('appointments.reschedule');
+            Route::patch('appointments/{appointment}/complete',            [FacilityAppointmentController::class, 'complete'])->name('appointments.complete');
+        });
 
         // ── Services (Phase 6) ────────────────────────────────────────────────
         // Route::prefix('services')->name('services.')->group(function () { });
