@@ -1,69 +1,164 @@
-import { Navbar } from '@/components/layout/Navbar'
-import { useCurrentUser } from '@/store/authStore'
-import { useAuth } from '@/hooks/useAuth'
+import { Link } from 'react-router-dom'
+import { Calendar, CheckCircle, Clock, Plus } from 'lucide-react'
+import { PatientLayout } from '@/components/layout/PatientLayout'
+import { StatCard } from '@/components/common/StatCard'
+import { AppointmentCard } from '@/components/appointments/AppointmentCard'
+import { ProfileCompletionCard } from '@/components/patient/ProfileCompletionCard'
+import { EmptyState } from '@/components/common/EmptyState'
+import { Spinner } from '@/components/common/Spinner'
+import { Alert } from '@/components/common/Alert'
 import { Button } from '@/components/common/Button'
-import { Calendar, Bell, FileText, LogOut } from 'lucide-react'
+import { usePatientDashboard } from '@/hooks/usePatientDashboard'
 
-/**
- * Patient dashboard shell — full implementation in Phase 4 (Patient Module).
- * Shows nav, welcome message, and quick-action cards.
- */
 export default function PatientDashboard() {
-  const user       = useCurrentUser()
-  const { logout } = useAuth()
+  const { data, isLoading, error, refetch } = usePatientDashboard()
+
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+
+  if (isLoading) {
+    return (
+      <PatientLayout>
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <Spinner size="lg" className="mx-auto mb-3" />
+            <p className="text-sm text-gray-500">Loading your dashboard…</p>
+          </div>
+        </div>
+      </PatientLayout>
+    )
+  }
+
+  if (error || !data) {
+    return (
+      <PatientLayout>
+        <Alert variant="error" className="mb-4">{error ?? 'Something went wrong.'}</Alert>
+        <Button variant="outline" onClick={refetch}>Try again</Button>
+      </PatientLayout>
+    )
+  }
+
+  const firstName = data.user.name.split(' ')[0]
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <PatientLayout
+      title={`${greeting}, ${firstName} 👋`}
+      subtitle="Here's a summary of your health activity."
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-      <div className="page-container py-8">
-        {/* Welcome header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Good {getGreeting()}, {user?.name.split(' ')[0]} 👋
-          </h1>
-          <p className="text-gray-500 mt-1">Here's a summary of your health activity.</p>
-        </div>
+        {/* ── Main column ────────────────────────────────────────────────── */}
+        <div className="lg:col-span-2 space-y-6">
 
-        {/* Quick action cards — fully built in Phase 4 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {[
-            { icon: Calendar, label: 'Book Appointment', color: 'bg-primary-50 text-primary-700', href: '#' },
-            { icon: FileText, label: 'My Appointments',  color: 'bg-teal-50 text-teal-700',      href: '#' },
-            { icon: Bell,     label: 'Notifications',    color: 'bg-yellow-50 text-yellow-700',   href: '#' },
-          ].map(({ icon: Icon, label, color }) => (
-            <div key={label} className="card p-5 flex items-center gap-4 hover:shadow-card-md transition-shadow cursor-pointer">
-              <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${color}`}>
-                <Icon size={22} />
-              </div>
-              <span className="font-medium text-gray-800 text-sm">{label}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Coming soon notice */}
-        <div className="card p-8 text-center">
-          <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <Calendar size={28} className="text-primary-600" />
+          {/* Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <StatCard label="Upcoming"  value={data.stats.upcoming}  icon={<Calendar     size={18} />} color="blue"   />
+            <StatCard label="Pending"   value={data.stats.pending}   icon={<Clock        size={18} />} color="yellow" />
+            <StatCard label="Completed" value={data.stats.completed} icon={<CheckCircle  size={18} />} color="green"  />
+            <StatCard label="Total"     value={data.stats.total}     icon={<Calendar     size={18} />} color="purple" />
           </div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Full Dashboard — Phase 4</h2>
-          <p className="text-gray-500 text-sm max-w-md mx-auto mb-6">
-            Your full patient dashboard with appointment history, notifications, and profile management is being built in Phase 4.
-          </p>
-          <div className="flex justify-center gap-3">
-            <Button variant="outline" size="sm" leftIcon={<LogOut size={15} />} onClick={logout}>
-              Sign out
-            </Button>
+
+          {/* Quick book CTA */}
+          <div className="bg-gradient-to-r from-primary-600 to-teal-600 rounded-2xl p-5 text-white flex items-center justify-between">
+            <div>
+              <p className="font-semibold mb-1">Need to see a doctor?</p>
+              <p className="text-white/80 text-sm">Book an appointment in under 2 minutes.</p>
+            </div>
+            <Link to="/patient/book">
+              <Button
+                size="sm"
+                className="bg-white text-primary-700 hover:bg-primary-50 border-0 flex-shrink-0"
+                leftIcon={<Plus size={15} />}
+              >
+                Book now
+              </Button>
+            </Link>
+          </div>
+
+          {/* Upcoming appointments */}
+          <section>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-semibold text-gray-900">Upcoming Appointments</h2>
+              <Link to="/patient/appointments" className="text-xs text-primary-600 hover:underline">
+                View all
+              </Link>
+            </div>
+
+            {data.upcoming_appointments.length === 0 ? (
+              <div className="card">
+                <EmptyState
+                  icon={<Calendar size={24} />}
+                  title="No upcoming appointments"
+                  description="You have no upcoming appointments. Book one to get started."
+                  action={
+                    <Link to="/patient/book">
+                      <Button size="sm" leftIcon={<Plus size={14} />}>Book appointment</Button>
+                    </Link>
+                  }
+                />
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {data.upcoming_appointments.map(appt => (
+                  <AppointmentCard
+                    key={appt.id}
+                    appointment={appt}
+                    onCancelled={refetch}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Recent history */}
+          {data.recent_history.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-semibold text-gray-900">Recent History</h2>
+                <Link to="/patient/appointments?status=completed" className="text-xs text-primary-600 hover:underline">
+                  View all
+                </Link>
+              </div>
+              <div className="space-y-3">
+                {data.recent_history.map(appt => (
+                  <AppointmentCard
+                    key={appt.id}
+                    appointment={appt}
+                    compact
+                    onCancelled={refetch}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        {/* ── Right column ───────────────────────────────────────────────── */}
+        <div className="space-y-4">
+          <ProfileCompletionCard
+            completion={data.profile?.profile_completion ?? 0}
+            profile={data.profile}
+          />
+
+          {/* Quick links */}
+          <div className="card p-4">
+            <h3 className="font-semibold text-gray-900 text-sm mb-3">Quick actions</h3>
+            <div className="space-y-1">
+              {[
+                { label: '+ Book appointment',   to: '/patient/book'          },
+                { label: '🏥 Find facilities',    to: '/patient/facilities'    },
+                { label: '📋 My appointments',    to: '/patient/appointments'  },
+                { label: '👤 Edit profile',       to: '/patient/profile'       },
+              ].map(({ label, to }) => (
+                <Link key={to} to={to}
+                  className="block px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-600 rounded-lg transition-colors">
+                  {label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </PatientLayout>
   )
-}
-
-function getGreeting() {
-  const h = new Date().getHours()
-  if (h < 12) return 'morning'
-  if (h < 17) return 'afternoon'
-  return 'evening'
 }

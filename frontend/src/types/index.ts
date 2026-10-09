@@ -82,11 +82,12 @@ export interface Facility {
   opening_hours: OpeningHours
   logo: string | null
   cover_image: string | null
-  is_active: boolean
-  is_verified: boolean
-  rating: number | null
-  services: Service[]
-  created_at: string
+  is_active:      boolean
+  is_verified:    boolean
+  rating:         number | null
+  total_reviews:  number
+  services:       Service[]
+  created_at:     string
 }
 
 export interface OpeningHours {
@@ -137,10 +138,17 @@ export interface Appointment {
   appointment_time: string
   reason: string
   status: AppointmentStatus
+  status_label: string
+  status_color: string
   notes: string | null
   rejection_reason: string | null
   reschedule_date: string | null
   reschedule_time: string | null
+  reschedule_reason: string | null
+  cancellation_reason: string | null
+  cancelled_at: string | null
+  completed_at: string | null
+  can_cancel: boolean
   patient: PatientProfile
   facility: Facility
   service: Service

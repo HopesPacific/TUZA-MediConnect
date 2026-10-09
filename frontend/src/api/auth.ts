@@ -25,4 +25,10 @@ export const authApi = {
 
   resetPassword: (data: { token: string; email: string; password: string; password_confirmation: string }) =>
     apiClient.post<ApiResponse<null>>('/auth/reset-password', data),
+
+  updateProfile: (data: object) =>
+    apiClient.put<ApiResponse<User>>('/auth/profile', data),
+
+  changePassword: (data: { current_password: string; password: string; password_confirmation: string }) =>
+    apiClient.put<ApiResponse<null>>('/auth/password', data),
 }

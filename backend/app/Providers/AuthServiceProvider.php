@@ -2,29 +2,25 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Appointment;
+use App\Models\PatientProfile;
+use App\Policies\AppointmentPolicy;
+use App\Policies\PatientProfilePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The model to policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
+     * Map models to their authorization policies.
+     * Once registered here, $this->authorize() and Gate::allows() work automatically.
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Appointment::class    => AppointmentPolicy::class,
+        PatientProfile::class => PatientProfilePolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $this->registerPolicies();
-
-        //
     }
 }

@@ -2,78 +2,62 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from '@/routes/ProtectedRoute'
 import { GuestRoute } from '@/routes/GuestRoute'
 
-// Public pages
+// Public
 import LandingPage from '@/pages/public/LandingPage'
 
-// Auth pages
-import LoginPage from '@/pages/auth/LoginPage'
+// Auth
+import LoginPage    from '@/pages/auth/LoginPage'
 import RegisterPage from '@/pages/auth/RegisterPage'
 
-// Patient pages
-import PatientDashboard from '@/pages/patient/PatientDashboard'
+// Patient
+import PatientDashboard    from '@/pages/patient/PatientDashboard'
+import AppointmentsPage    from '@/pages/patient/AppointmentsPage'
+import BookAppointmentPage from '@/pages/patient/BookAppointmentPage'
+import FacilitiesPage      from '@/pages/patient/FacilitiesPage'
+import ProfilePage         from '@/pages/patient/ProfilePage'
 
-// Facility pages
+// Facility staff
 import FacilityDashboard from '@/pages/facility/FacilityDashboard'
 
-// Admin pages
+// Admin
 import AdminDashboard from '@/pages/admin/AdminDashboard'
 
 // Shared
 import NotFoundPage from '@/pages/NotFoundPage'
 
-/**
- * Application route tree.
- * New routes are added here as each phase is built.
- *
- * Route groups:
- *  /                → Public landing page
- *  /login           → Guest only
- *  /register        → Guest only
- *  /patient/*       → Authenticated patients only
- *  /facility/*      → Authenticated facility staff only
- *  /admin/*         → Authenticated admins only
- */
 export default function App() {
   return (
     <Routes>
-      {/* ── Public ────────────────────────────────────────────────────── */}
+      {/* ── Public ────────────────────────────────────────────────── */}
       <Route path="/" element={<LandingPage />} />
 
-      {/* ── Auth (guests only) ────────────────────────────────────────── */}
+      {/* ── Auth (guests only) ────────────────────────────────────── */}
       <Route path="/login"    element={<GuestRoute><LoginPage /></GuestRoute>} />
       <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
 
-      {/* ── Patient ───────────────────────────────────────────────────── */}
-      <Route
-        path="/patient/dashboard"
-        element={
-          <ProtectedRoute allowedRoles={['patient']}>
-            <PatientDashboard />
-          </ProtectedRoute>
-        }
-      />
+      {/* ── Patient ───────────────────────────────────────────────── */}
+      <Route path="/patient" element={<ProtectedRoute allowedRoles={['patient']} />}>
+        <Route path="dashboard"    element={<PatientDashboard />} />
+        <Route path="appointments" element={<AppointmentsPage />} />
+        <Route path="book"         element={<BookAppointmentPage />} />
+        <Route path="facilities"   element={<FacilitiesPage />} />
+        <Route path="profile"      element={<ProfilePage />} />
+        <Route index element={<Navigate to="dashboard" replace />} />
+      </Route>
 
-      {/* ── Facility Staff ────────────────────────────────────────────── */}
-      <Route
-        path="/facility/dashboard"
-        element={
-          <ProtectedRoute allowedRoles={['facility_staff']}>
-            <FacilityDashboard />
-          </ProtectedRoute>
-        }
-      />
+      {/* ── Facility Staff ────────────────────────────────────────── */}
+      <Route path="/facility" element={<ProtectedRoute allowedRoles={['facility_staff']} />}>
+        <Route path="dashboard" element={<FacilityDashboard />} />
+        <Route index element={<Navigate to="dashboard" replace />} />
+      </Route>
 
-      {/* ── Admin ─────────────────────────────────────────────────────── */}
-      <Route
-        path="/admin/dashboard"
-        element={
-          <ProtectedRoute allowedRoles={['administrator']}>
-            <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
+      {/* ── Admin ─────────────────────────────────────────────────── */}
+      <Route path="/admin" element={<ProtectedRoute allowedRoles={['administrator']} />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route index element={<Navigate to="dashboard" replace />} />
+      </Route>
 
-      {/* ── Fallback ──────────────────────────────────────────────────── */}
+      {/* ── Fallbacks ─────────────────────────────────────────────── */}
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*"    element={<Navigate to="/404" replace />} />
     </Routes>
