@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Menu, X, Bell, ChevronDown, LogOut, User, Settings } from 'lucide-react'
+import { Menu, X, ChevronDown, LogOut, User, Settings } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAuthStore, useCurrentUser, useIsAuthenticated } from '@/store/authStore'
 import { authApi } from '@/api/auth'
+import { NotificationBell } from '@/components/notifications/NotificationBell'
 import toast from 'react-hot-toast'
 
 interface NavbarProps {
@@ -69,10 +70,7 @@ export function Navbar({ transparent }: NavbarProps) {
             {isAuthenticated && user ? (
               <>
                 {/* Notifications */}
-                <button className="relative p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                  <Bell size={20} />
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
-                </button>
+                <NotificationBell />
 
                 {/* Profile dropdown */}
                 <div className="relative">

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Patient\AppointmentController;
 use App\Http\Controllers\Api\Patient\DashboardController;
 use App\Http\Controllers\Api\Patient\FacilityBrowseController;
 use App\Http\Controllers\Api\Shared\HealthCheckController;
+use App\Http\Controllers\Api\Shared\NotificationController;
 use App\Http\Controllers\Api\Shared\ServiceController;
 use Illuminate\Support\Facades\Route;
 
@@ -90,8 +91,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         // ── Services (Phase 6) ────────────────────────────────────────────────
         // Route::prefix('services')->name('services.')->group(function () { });
 
-        // ── Notifications (Phase 8) ───────────────────────────────────────────
-        // Route::prefix('notifications')->name('notifications.')->group(function () { });
+        // ── Notifications (all authenticated users) ───────────────────────────
+        Route::prefix('notifications')->name('notifications.')->group(function () {
+            Route::get('/',                          [NotificationController::class, 'index'])->name('index');
+            Route::get('unread-count',               [NotificationController::class, 'unreadCount'])->name('unread');
+            Route::patch('read-all',                 [NotificationController::class, 'markAllAsRead'])->name('read-all');
+            Route::patch('{id}/read',                [NotificationController::class, 'markAsRead'])->name('read');
+            Route::delete('{id}',                    [NotificationController::class, 'destroy'])->name('destroy');
+        });
 
         // ── Messages (Phase 9) ────────────────────────────────────────────────
         // Route::prefix('messages')->name('messages.')->group(function () { });

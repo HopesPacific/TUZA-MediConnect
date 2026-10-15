@@ -18,6 +18,7 @@ import BookAppointmentPage   from '@/pages/patient/BookAppointmentPage'
 import FacilitiesPage        from '@/pages/patient/FacilitiesPage'
 import ProfilePage           from '@/pages/patient/ProfilePage'
 import PatientServicesPage   from '@/pages/patient/ServicesPage'
+import NotificationsPage     from '@/pages/patient/NotificationsPage'
 
 // Facility staff
 import FacilityDashboard        from '@/pages/facility/FacilityDashboard'
@@ -26,8 +27,8 @@ import FacilityProfilePage      from '@/pages/facility/FacilityProfilePage'
 import FacilityServicesPage     from '@/pages/facility/FacilityServicesPage'
 
 // Admin
-import AdminDashboard         from '@/pages/admin/AdminDashboard'
-import AdminAppointmentsPage  from '@/pages/admin/AdminAppointmentsPage'
+import AdminDashboard        from '@/pages/admin/AdminDashboard'
+import AdminAppointmentsPage from '@/pages/admin/AdminAppointmentsPage'
 
 // Shared
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="book"                 element={<BookAppointmentPage />} />
         <Route path="facilities"           element={<FacilitiesPage />} />
         <Route path="services"             element={<PatientServicesPage />} />
+        <Route path="notifications"        element={<NotificationsPage />} />
         <Route path="profile"              element={<ProfilePage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
