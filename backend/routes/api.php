@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Patient\AppointmentController;
 use App\Http\Controllers\Api\Patient\DashboardController;
 use App\Http\Controllers\Api\Patient\FacilityBrowseController;
 use App\Http\Controllers\Api\Shared\HealthCheckController;
+use App\Http\Controllers\Api\Shared\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +28,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('login',    [AuthController::class, 'login'])->name('login');
     });
 
-    // ── Public Facility Browsing (no auth needed to browse) ───────────────────
+    // ── Public Services (no auth) ─────────────────────────────────────────────
+    Route::prefix('services')->name('services.')->group(function () {
+        Route::get('/',                           [ServiceController::class, 'index'])->name('index');
+        Route::get('categories',                  [ServiceController::class, 'categories'])->name('categories');
+        Route::get('{service}',                   [ServiceController::class, 'show'])->name('show');
+    });
     Route::prefix('facilities')->name('facilities.')->group(function () {
         Route::get('/',                                      [FacilityBrowseController::class, 'index'])->name('index');
         Route::get('{healthcareFacility}',                   [FacilityBrowseController::class, 'show'])->name('show');
@@ -92,7 +98,12 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         // ── Payments (Phase 10) ───────────────────────────────────────────────
         // Route::prefix('payments')->name('payments.')->group(function () { });
 
-        // ── Admin (Phase 12) ──────────────────────────────────────────────────
-        // Route::middleware('role:administrator')->prefix('admin')->name('admin.')->group(function () { });
+        // ── Admin — Service Management (Phase 6 partial, expanded in Phase 12) ──
+        Route::middleware('role:administrator')->prefix('admin')->name('admin.')->group(function () {
+            Route::post('services',                   [ServiceController::class, 'store'])->name('services.store');
+            Route::put('services/{service}',          [ServiceController::class, 'update'])->name('services.update');
+            Route::delete('services/{service}',       [ServiceController::class, 'destroy'])->name('services.destroy');
+            Route::patch('services/{service}/toggle', [ServiceController::class, 'toggle'])->name('services.toggle');
+        });
     });
 });

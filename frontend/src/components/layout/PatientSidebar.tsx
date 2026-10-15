@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Calendar, Search, User, Bell, MessageSquare, LogOut } from 'lucide-react'
+import { LayoutDashboard, Calendar, Search, User, Bell, MessageSquare, Stethoscope, LogOut } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrentUser } from '@/store/authStore'
@@ -8,6 +8,7 @@ const navItems = [
   { to: '/patient/dashboard',     icon: LayoutDashboard, label: 'Dashboard'       },
   { to: '/patient/appointments',  icon: Calendar,        label: 'Appointments'    },
   { to: '/patient/facilities',    icon: Search,          label: 'Find Facilities' },
+  { to: '/patient/services',      icon: Stethoscope,     label: 'Services'        },
   { to: '/patient/notifications', icon: Bell,            label: 'Notifications'   },
   { to: '/patient/messages',      icon: MessageSquare,   label: 'Messages'        },
   { to: '/patient/profile',       icon: User,            label: 'My Profile'      },
@@ -50,16 +51,11 @@ export function PatientSidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-3 space-y-0.5">
         {navItems.map(({ to, icon: Icon, label }) => (
-          <NavLink
-            key={to}
-            to={to}
+          <NavLink key={to} to={to}
             className={({ isActive }) => clsx(
               'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
-              isActive
-                ? 'bg-primary-50 text-primary-700'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-            )}
-          >
+              isActive ? 'bg-primary-50 text-primary-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+            )}>
             <Icon size={18} />
             {label}
           </NavLink>
@@ -68,10 +64,8 @@ export function PatientSidebar() {
 
       {/* Sign out */}
       <div className="px-3 mt-4">
-        <button
-          onClick={logout}
-          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
-        >
+        <button onClick={logout}
+          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors">
           <LogOut size={18} />
           Sign out
         </button>
