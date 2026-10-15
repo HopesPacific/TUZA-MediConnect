@@ -11,12 +11,13 @@ import LoginPage    from '@/pages/auth/LoginPage'
 import RegisterPage from '@/pages/auth/RegisterPage'
 
 // Patient
-import PatientDashboard    from '@/pages/patient/PatientDashboard'
-import AppointmentsPage    from '@/pages/patient/AppointmentsPage'
-import BookAppointmentPage from '@/pages/patient/BookAppointmentPage'
-import FacilitiesPage      from '@/pages/patient/FacilitiesPage'
-import ProfilePage         from '@/pages/patient/ProfilePage'
-import PatientServicesPage from '@/pages/patient/ServicesPage'
+import PatientDashboard      from '@/pages/patient/PatientDashboard'
+import AppointmentsPage      from '@/pages/patient/AppointmentsPage'
+import AppointmentDetailPage from '@/pages/patient/AppointmentDetailPage'
+import BookAppointmentPage   from '@/pages/patient/BookAppointmentPage'
+import FacilitiesPage        from '@/pages/patient/FacilitiesPage'
+import ProfilePage           from '@/pages/patient/ProfilePage'
+import PatientServicesPage   from '@/pages/patient/ServicesPage'
 
 // Facility staff
 import FacilityDashboard        from '@/pages/facility/FacilityDashboard'
@@ -25,7 +26,8 @@ import FacilityProfilePage      from '@/pages/facility/FacilityProfilePage'
 import FacilityServicesPage     from '@/pages/facility/FacilityServicesPage'
 
 // Admin
-import AdminDashboard from '@/pages/admin/AdminDashboard'
+import AdminDashboard         from '@/pages/admin/AdminDashboard'
+import AdminAppointmentsPage  from '@/pages/admin/AdminAppointmentsPage'
 
 // Shared
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -43,12 +45,13 @@ export default function App() {
 
       {/* ── Patient ──────────────────────────────────────────────────── */}
       <Route path="/patient" element={<ProtectedRoute allowedRoles={['patient']} />}>
-        <Route path="dashboard"    element={<PatientDashboard />} />
-        <Route path="appointments" element={<AppointmentsPage />} />
-        <Route path="book"         element={<BookAppointmentPage />} />
-        <Route path="facilities"   element={<FacilitiesPage />} />
-        <Route path="services"     element={<PatientServicesPage />} />
-        <Route path="profile"      element={<ProfilePage />} />
+        <Route path="dashboard"            element={<PatientDashboard />} />
+        <Route path="appointments"         element={<AppointmentsPage />} />
+        <Route path="appointments/:id"     element={<AppointmentDetailPage />} />
+        <Route path="book"                 element={<BookAppointmentPage />} />
+        <Route path="facilities"           element={<FacilitiesPage />} />
+        <Route path="services"             element={<PatientServicesPage />} />
+        <Route path="profile"              element={<ProfilePage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
 
@@ -63,7 +66,8 @@ export default function App() {
 
       {/* ── Admin ────────────────────────────────────────────────────── */}
       <Route path="/admin" element={<ProtectedRoute allowedRoles={['administrator']} />}>
-        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="dashboard"    element={<AdminDashboard />} />
+        <Route path="appointments" element={<AdminAppointmentsPage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
 

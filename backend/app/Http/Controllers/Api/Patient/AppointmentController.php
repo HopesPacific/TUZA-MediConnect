@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Patient;
 use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Patient\BookAppointmentRequest;
 use App\Http\Requests\Patient\CancelAppointmentRequest;
+use App\Http\Resources\Patient\AppointmentDetailResource;
 use App\Http\Resources\Patient\AppointmentResource;
 use App\Models\Appointment;
 use App\Services\AppointmentService;
@@ -70,7 +71,7 @@ class AppointmentController extends BaseApiController
 
         $appointment->load(['facility', 'service', 'statusHistory.changedBy']);
 
-        return $this->successResponse(new AppointmentResource($appointment));
+        return $this->successResponse(new AppointmentDetailResource($appointment));
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\AdminAppointmentController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Facility\FacilityAppointmentController;
 use App\Http\Controllers\Api\Facility\FacilityDashboardController;
@@ -100,10 +101,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
         // ── Admin — Service Management (Phase 6 partial, expanded in Phase 12) ──
         Route::middleware('role:administrator')->prefix('admin')->name('admin.')->group(function () {
+            // Services
             Route::post('services',                   [ServiceController::class, 'store'])->name('services.store');
             Route::put('services/{service}',          [ServiceController::class, 'update'])->name('services.update');
             Route::delete('services/{service}',       [ServiceController::class, 'destroy'])->name('services.destroy');
             Route::patch('services/{service}/toggle', [ServiceController::class, 'toggle'])->name('services.toggle');
+            // Appointments (Phase 7)
+            Route::get('appointments/stats',          [AdminAppointmentController::class, 'stats'])->name('appointments.stats');
+            Route::get('appointments',                [AdminAppointmentController::class, 'index'])->name('appointments.index');
         });
     });
 });
