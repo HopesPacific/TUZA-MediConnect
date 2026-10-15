@@ -19,12 +19,14 @@ import FacilitiesPage        from '@/pages/patient/FacilitiesPage'
 import ProfilePage           from '@/pages/patient/ProfilePage'
 import PatientServicesPage   from '@/pages/patient/ServicesPage'
 import NotificationsPage     from '@/pages/patient/NotificationsPage'
+import PatientMessagesPage   from '@/pages/patient/MessagesPage'
 
 // Facility staff
 import FacilityDashboard        from '@/pages/facility/FacilityDashboard'
 import FacilityAppointmentsPage from '@/pages/facility/FacilityAppointmentsPage'
 import FacilityProfilePage      from '@/pages/facility/FacilityProfilePage'
 import FacilityServicesPage     from '@/pages/facility/FacilityServicesPage'
+import FacilityMessagesPage     from '@/pages/facility/FacilityMessagesPage'
 
 // Admin
 import AdminDashboard        from '@/pages/admin/AdminDashboard'
@@ -53,6 +55,7 @@ export default function App() {
         <Route path="facilities"           element={<FacilitiesPage />} />
         <Route path="services"             element={<PatientServicesPage />} />
         <Route path="notifications"        element={<NotificationsPage />} />
+        <Route path="messages"             element={<PatientMessagesPage />} />
         <Route path="profile"              element={<ProfilePage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
@@ -61,6 +64,7 @@ export default function App() {
       <Route path="/facility" element={<ProtectedRoute allowedRoles={['facility_staff']} />}>
         <Route path="dashboard"    element={<FacilityDashboard />} />
         <Route path="appointments" element={<FacilityAppointmentsPage />} />
+        <Route path="messages"     element={<FacilityMessagesPage />} />
         <Route path="profile"      element={<FacilityProfilePage />} />
         <Route path="services"     element={<FacilityServicesPage />} />
         <Route index element={<Navigate to="dashboard" replace />} />

@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Patient\AppointmentController;
 use App\Http\Controllers\Api\Patient\DashboardController;
 use App\Http\Controllers\Api\Patient\FacilityBrowseController;
 use App\Http\Controllers\Api\Shared\HealthCheckController;
+use App\Http\Controllers\Api\Shared\MessageController;
 use App\Http\Controllers\Api\Shared\NotificationController;
 use App\Http\Controllers\Api\Shared\ServiceController;
 use Illuminate\Support\Facades\Route;
@@ -100,8 +101,15 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::delete('{id}',                    [NotificationController::class, 'destroy'])->name('destroy');
         });
 
-        // ── Messages (Phase 9) ────────────────────────────────────────────────
-        // Route::prefix('messages')->name('messages.')->group(function () { });
+        // ── Messages (all authenticated users) ───────────────────────────────
+        Route::prefix('messages')->name('messages.')->group(function () {
+            Route::get('/',                          [MessageController::class, 'inbox'])->name('inbox');
+            Route::get('unread-count',               [MessageController::class, 'unreadCount'])->name('unread');
+            Route::post('/',                         [MessageController::class, 'send'])->name('send');
+            Route::get('{message}',                  [MessageController::class, 'show'])->name('show');
+            Route::patch('{message}/read',           [MessageController::class, 'markAsRead'])->name('read');
+            Route::delete('{message}',               [MessageController::class, 'destroy'])->name('destroy');
+        });
 
         // ── Payments (Phase 10) ───────────────────────────────────────────────
         // Route::prefix('payments')->name('payments.')->group(function () { });
