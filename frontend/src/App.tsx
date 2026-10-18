@@ -32,6 +32,9 @@ import FacilityMessagesPage     from '@/pages/facility/FacilityMessagesPage'
 // Admin
 import AdminDashboard        from '@/pages/admin/AdminDashboard'
 import AdminAppointmentsPage from '@/pages/admin/AdminAppointmentsPage'
+import AdminUsersPage        from '@/pages/admin/AdminUsersPage'
+import AdminFacilitiesPage   from '@/pages/admin/AdminFacilitiesPage'
+import AdminAuditLogsPage    from '@/pages/admin/AdminAuditLogsPage'
 
 // Shared
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -75,7 +78,10 @@ export default function App() {
       {/* ── Admin ────────────────────────────────────────────────────── */}
       <Route path="/admin" element={<ProtectedRoute allowedRoles={['administrator']} />}>
         <Route path="dashboard"    element={<AdminDashboard />} />
+        <Route path="users"        element={<AdminUsersPage />} />
+        <Route path="facilities"   element={<AdminFacilitiesPage />} />
         <Route path="appointments" element={<AdminAppointmentsPage />} />
+        <Route path="audit-logs"   element={<AdminAuditLogsPage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
 

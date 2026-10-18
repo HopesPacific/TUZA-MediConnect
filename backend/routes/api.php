@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AdminAppointmentController;
+use App\Http\Controllers\Api\Admin\AdminAuditLogController;
+use App\Http\Controllers\Api\Admin\AdminDashboardController;
+use App\Http\Controllers\Api\Admin\AdminFacilityController;
+use App\Http\Controllers\Api\Admin\AdminUserController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Facility\FacilityAppointmentController;
 use App\Http\Controllers\Api\Facility\FacilityDashboardController;
@@ -130,16 +134,32 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         });
         // Route::prefix('payments')->name('payments.')->group(function () { });
 
-        // ── Admin — Service Management (Phase 6 partial, expanded in Phase 12) ──
+        // ── Admin (Phase 11/12) ───────────────────────────────────────────────
         Route::middleware('role:administrator')->prefix('admin')->name('admin.')->group(function () {
+            // Dashboard
+            Route::get('dashboard',                                     AdminDashboardController::class)->name('dashboard');
             // Services
-            Route::post('services',                   [ServiceController::class, 'store'])->name('services.store');
-            Route::put('services/{service}',          [ServiceController::class, 'update'])->name('services.update');
-            Route::delete('services/{service}',       [ServiceController::class, 'destroy'])->name('services.destroy');
-            Route::patch('services/{service}/toggle', [ServiceController::class, 'toggle'])->name('services.toggle');
-            // Appointments (Phase 7)
-            Route::get('appointments/stats',          [AdminAppointmentController::class, 'stats'])->name('appointments.stats');
-            Route::get('appointments',                [AdminAppointmentController::class, 'index'])->name('appointments.index');
+            Route::post('services',                                     [ServiceController::class, 'store'])->name('services.store');
+            Route::put('services/{service}',                            [ServiceController::class, 'update'])->name('services.update');
+            Route::delete('services/{service}',                         [ServiceController::class, 'destroy'])->name('services.destroy');
+            Route::patch('services/{service}/toggle',                   [ServiceController::class, 'toggle'])->name('services.toggle');
+            // Appointments
+            Route::get('appointments/stats',                            [AdminAppointmentController::class, 'stats'])->name('appointments.stats');
+            Route::get('appointments',                                  [AdminAppointmentController::class, 'index'])->name('appointments.index');
+            // Users
+            Route::get('users/stats',                                   [AdminUserController::class, 'stats'])->name('users.stats');
+            Route::get('users',                                         [AdminUserController::class, 'index'])->name('users.index');
+            Route::get('users/{user}',                                  [AdminUserController::class, 'show'])->name('users.show');
+            Route::patch('users/{user}/toggle-active',                  [AdminUserController::class, 'toggleActive'])->name('users.toggle');
+            // Facilities
+            Route::get('facilities',                                    [AdminFacilityController::class, 'index'])->name('facilities.index');
+            Route::post('facilities',                                   [AdminFacilityController::class, 'store'])->name('facilities.store');
+            Route::put('facilities/{facility}',                         [AdminFacilityController::class, 'update'])->name('facilities.update');
+            Route::patch('facilities/{facility}/verify',                [AdminFacilityController::class, 'verify'])->name('facilities.verify');
+            Route::patch('facilities/{facility}/toggle-active',         [AdminFacilityController::class, 'toggleActive'])->name('facilities.toggle');
+            Route::delete('facilities/{facility}',                      [AdminFacilityController::class, 'destroy'])->name('facilities.destroy');
+            // Audit Logs
+            Route::get('audit-logs',                                    [AdminAuditLogController::class, 'index'])->name('audit-logs.index');
         });
     });
 });
