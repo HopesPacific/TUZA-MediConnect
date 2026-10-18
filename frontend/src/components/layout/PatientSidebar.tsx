@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Calendar, Search, User, Bell, MessageSquare, Stethoscope, LogOut } from 'lucide-react'
+import { LayoutDashboard, Calendar, Search, User, Bell, MessageSquare, Stethoscope, CreditCard, LogOut } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrentUser } from '@/store/authStore'
@@ -11,6 +11,7 @@ const navItems = [
   { to: '/patient/services',      icon: Stethoscope,     label: 'Services'        },
   { to: '/patient/notifications', icon: Bell,            label: 'Notifications'   },
   { to: '/patient/messages',      icon: MessageSquare,   label: 'Messages'        },
+  { to: '/patient/payments',      icon: CreditCard,      label: 'Payments'        },
   { to: '/patient/profile',       icon: User,            label: 'My Profile'      },
 ]
 

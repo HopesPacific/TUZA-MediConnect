@@ -8,10 +8,12 @@ use App\Http\Controllers\Api\Facility\FacilityProfileController;
 use App\Http\Controllers\Api\Patient\AppointmentController;
 use App\Http\Controllers\Api\Patient\DashboardController;
 use App\Http\Controllers\Api\Patient\FacilityBrowseController;
+use App\Http\Controllers\Api\Patient\PaymentController;
 use App\Http\Controllers\Api\Shared\HealthCheckController;
 use App\Http\Controllers\Api\Shared\MessageController;
 use App\Http\Controllers\Api\Shared\NotificationController;
 use App\Http\Controllers\Api\Shared\ServiceController;
+use App\Http\Controllers\Api\Shared\UssdController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +24,10 @@ use Illuminate\Support\Facades\Route;
 
 // ── Health Check ──────────────────────────────────────────────────────────────
 Route::get('/v1/health', HealthCheckController::class)->name('health');
+
+// ── USSD Callback (public — called by USSD provider, no auth token) ───────────
+// Status: Architecture ready. Real USSD provider not yet connected.
+Route::post('/ussd', [UssdController::class, 'handle'])->name('ussd.callback');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
 
@@ -37,6 +43,9 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('categories',                  [ServiceController::class, 'categories'])->name('categories');
         Route::get('{service}',                   [ServiceController::class, 'show'])->name('show');
     });
+
+    // ── USSD Test (dev only) ──────────────────────────────────────────────────
+    Route::get('ussd/test', [UssdController::class, 'test'])->name('ussd.test');
     Route::prefix('facilities')->name('facilities.')->group(function () {
         Route::get('/',                                      [FacilityBrowseController::class, 'index'])->name('index');
         Route::get('{healthcareFacility}',                   [FacilityBrowseController::class, 'show'])->name('show');
@@ -111,7 +120,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::delete('{message}',               [MessageController::class, 'destroy'])->name('destroy');
         });
 
-        // ── Payments (Phase 10) ───────────────────────────────────────────────
+        // ── Payments (patients) ───────────────────────────────────────────────
+        Route::middleware('role:patient')->prefix('payments')->name('payments.')->group(function () {
+            Route::get('stats',           [PaymentController::class, 'stats'])->name('stats');
+            Route::get('/',               [PaymentController::class, 'index'])->name('index');
+            Route::post('/',              [PaymentController::class, 'initiate'])->name('initiate');
+            Route::get('{payment}',       [PaymentController::class, 'show'])->name('show');
+            Route::post('{payment}/verify', [PaymentController::class, 'verify'])->name('verify');
+        });
         // Route::prefix('payments')->name('payments.')->group(function () { });
 
         // ── Admin — Service Management (Phase 6 partial, expanded in Phase 12) ──

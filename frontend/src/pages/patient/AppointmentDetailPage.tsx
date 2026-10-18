@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import {
   Calendar, Clock, MapPin, Stethoscope, ArrowLeft,
-  CheckCircle, XCircle, RotateCcw, User, FileText
+  XCircle, User, FileText, CreditCard
 } from 'lucide-react'
 import { PatientLayout } from '@/components/layout/PatientLayout'
 import { AppointmentStatusBadge } from '@/components/common/Badge'
@@ -10,6 +10,7 @@ import { ConfirmModal } from '@/components/common/Modal'
 import { Button } from '@/components/common/Button'
 import { Alert } from '@/components/common/Alert'
 import { Spinner } from '@/components/common/Spinner'
+import { PaymentModal } from '@/components/payments/PaymentModal'
 import { patientApi } from '@/api/patient'
 import { useCancelAppointment } from '@/hooks/useAppointments'
 import { formatDate, formatTime, timeAgo } from '@/utils/formatters'
@@ -57,7 +58,8 @@ export default function AppointmentDetailPage() {
   const [appt, setAppt]         = useState<AppointmentDetail | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError]         = useState<string | null>(null)
-  const [showCancel, setShowCancel] = useState(false)
+  const [showCancel,  setShowCancel]  = useState(false)
+  const [showPayment, setShowPayment] = useState(false)
   const { cancel, isLoading: isCancelling } = useCancelAppointment()
 
   const load = async () => {
@@ -208,15 +210,27 @@ export default function AppointmentDetailPage() {
           )}
 
           {/* Actions */}
-          {appt.can_cancel && (
-            <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
+            {/* Pay button — shown for confirmed appointments that have a service price */}
+            {appt.status === 'confirmed' && appt.service?.price && (
+              <Button
+                size="sm"
+                variant="secondary"
+                leftIcon={<CreditCard size={15} />}
+                onClick={() => setShowPayment(true)}
+              >
+                Pay {appt.service.currency} {appt.service.price.toLocaleString()}
+              </Button>
+            )}
+
+            {appt.can_cancel && (
               <Button variant="danger" size="sm"
                 leftIcon={<XCircle size={15} />}
                 onClick={() => setShowCancel(true)}>
                 Cancel appointment
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* ── Status History Timeline ──────────────────────────────── */}
@@ -303,6 +317,20 @@ export default function AppointmentDetailPage() {
         confirmLabel="Yes, cancel it"
         variant="danger"
       />
+
+      {/* Payment Modal */}
+      {appt.service?.price && (
+        <PaymentModal
+          isOpen={showPayment}
+          onClose={() => setShowPayment(false)}
+          onSuccess={load}
+          appointmentId={appt.id}
+          amount={appt.service.price}
+          currency={appt.service.currency}
+          serviceName={appt.service.name}
+          facilityName={appt.facility?.name ?? ''}
+        />
+      )}
     </PatientLayout>
   )
 }

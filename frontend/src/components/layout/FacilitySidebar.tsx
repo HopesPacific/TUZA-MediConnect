@@ -1,15 +1,14 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Calendar, Building2, Stethoscope, MessageSquare, LogOut } from 'lucide-react'
+import { LayoutDashboard, Calendar, Building2, Stethoscope, LogOut } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrentUser } from '@/store/authStore'
 
 const navItems = [
-  { to: '/facility/dashboard',    icon: LayoutDashboard, label: 'Dashboard'       },
-  { to: '/facility/appointments', icon: Calendar,        label: 'Appointments'    },
-  { to: '/facility/messages',     icon: MessageSquare,   label: 'Messages'        },
-  { to: '/facility/profile',      icon: Building2,       label: 'Facility Profile'},
-  { to: '/facility/services',     icon: Stethoscope,     label: 'Services'        },
+  { to: '/facility/dashboard',    icon: LayoutDashboard, label: 'Dashboard'    },
+  { to: '/facility/appointments', icon: Calendar,        label: 'Appointments' },
+  { to: '/facility/profile',      icon: Building2,       label: 'Facility Profile' },
+  { to: '/facility/services',     icon: Stethoscope,     label: 'Services'     },
 ]
 
 export function FacilitySidebar() {
