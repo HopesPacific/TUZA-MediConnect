@@ -50,13 +50,29 @@ return [
     |--------------------------------------------------------------------------
     | Payment Service Configuration
     |--------------------------------------------------------------------------
-    | driver: 'mock' (default), 'mpesa', 'stripe', 'flutterwave', etc.
+    | driver: 'mock' (default) or 'mtn' for MTN Mobile Money
+    | Register at https://momodeveloper.mtn.com to get credentials.
     */
     'payment' => [
         'driver'     => env('PAYMENT_DRIVER', 'mock'),
         'api_key'    => env('PAYMENT_API_KEY'),
         'secret_key' => env('PAYMENT_SECRET_KEY'),
         'base_url'   => env('PAYMENT_BASE_URL'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | MTN Mobile Money (MoMo) Configuration
+    |--------------------------------------------------------------------------
+    */
+    'mtn' => [
+        'base_url'     => env('MTN_MOMO_BASE_URL',                'https://sandbox.momodeveloper.mtn.com'),
+        'primary_key'  => env('MTN_MOMO_COLLECTION_PRIMARY_KEY',  ''),
+        'api_user'     => env('MTN_MOMO_API_USER',                ''),
+        'api_key'      => env('MTN_MOMO_API_KEY',                 ''),
+        'environment'  => env('MTN_MOMO_ENVIRONMENT',             'sandbox'),
+        'currency'     => env('MTN_MOMO_CURRENCY',                'UGX'),
+        'callback_url' => env('MTN_MOMO_CALLBACK_URL',            ''),
     ],
 
 ];

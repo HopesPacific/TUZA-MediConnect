@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Patient\FacilityBrowseController;
 use App\Http\Controllers\Api\Patient\PaymentController;
 use App\Http\Controllers\Api\Shared\HealthCheckController;
 use App\Http\Controllers\Api\Shared\MessageController;
+use App\Http\Controllers\Api\Shared\MtnCallbackController;
 use App\Http\Controllers\Api\Shared\NotificationController;
 use App\Http\Controllers\Api\Shared\ServiceController;
 use App\Http\Controllers\Api\Shared\UssdController;
@@ -30,8 +31,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/v1/health', HealthCheckController::class)->name('health');
 
 // ── USSD Callback (public — called by USSD provider, no auth token) ───────────
-// Status: Architecture ready. Real USSD provider not yet connected.
 Route::post('/ussd', [UssdController::class, 'handle'])->name('ussd.callback');
+
+// ── MTN MoMo Callback (public — called by MTN after payment approval/rejection) ─
+// Status: Architecture ready. Works when MTN_MOMO_CALLBACK_URL is configured.
+Route::post('/mtn/callback', [MtnCallbackController::class, 'handle'])->name('mtn.callback');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
 

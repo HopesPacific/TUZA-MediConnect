@@ -36,10 +36,10 @@ class AppServiceProvider extends ServiceProvider
             $driver = config('services.payment.driver', 'mock');
 
             return match ($driver) {
-                // 'mpesa'       => new \App\Services\Payment\MpesaService(),
-                // 'stripe'      => new \App\Services\Payment\StripeService(),
-                // 'flutterwave' => new \App\Services\Payment\FlutterwaveService(),
-                default       => new MockPaymentService(),
+                'mtn'         => new \App\Services\Payment\MtnMobileMoneyService(),
+                // 'mpesa'    => new \App\Services\Payment\MpesaService(),
+                // 'stripe'   => new \App\Services\Payment\StripeService(),
+                default        => new MockPaymentService(),
             };
         });
     }
