@@ -11,8 +11,11 @@ class AppointmentRejected extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly Appointment $appointment)
+    private $appointment;
+
+    public function __construct(Appointment $appointment)
     {
+        $this->appointment = $appointment;
     }
 
     public function via(object $notifiable): array
@@ -25,7 +28,7 @@ class AppointmentRejected extends Notification
         return [
             'type'           => 'appointment_rejected',
             'title'          => 'Appointment Not Available',
-            'message'        => "Your appointment request at {$this->appointment->facility->name} could not be accommodated.",
+            'message'        => "Your appointment at {$this->appointment->facility->name} could not be accommodated.",
             'appointment_id' => $this->appointment->id,
             'facility_name'  => $this->appointment->facility->name,
             'reason'         => $this->appointment->rejection_reason,
@@ -37,10 +40,8 @@ class AppointmentRejected extends Notification
         return (new MailMessage)
             ->subject('Appointment Update — Tuza MediConnect')
             ->greeting("Hello {$notifiable->name},")
-            ->line("Unfortunately, your appointment request could not be accommodated.")
-            ->line("Facility: {$this->appointment->facility->name}")
+            ->line("Your appointment request could not be accommodated.")
             ->line("Reason: " . ($this->appointment->rejection_reason ?? 'No reason provided.'))
-            ->action('Book Another Appointment', url("/patient/book"))
-            ->line('We apologize for the inconvenience. Please try booking at a different time.');
+            ->action('Book Another', url("/patient/book"));
     }
 }

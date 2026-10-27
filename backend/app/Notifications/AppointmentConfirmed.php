@@ -11,8 +11,11 @@ class AppointmentConfirmed extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly Appointment $appointment)
+    private $appointment;
+
+    public function __construct(Appointment $appointment)
     {
+        $this->appointment = $appointment;
     }
 
     public function via(object $notifiable): array
@@ -24,7 +27,7 @@ class AppointmentConfirmed extends Notification
     {
         return [
             'type'             => 'appointment_confirmed',
-            'title'            => 'Appointment Confirmed ✓',
+            'title'            => 'Appointment Confirmed',
             'message'          => "Your appointment at {$this->appointment->facility->name} has been confirmed.",
             'appointment_id'   => $this->appointment->id,
             'facility_name'    => $this->appointment->facility->name,
@@ -41,10 +44,6 @@ class AppointmentConfirmed extends Notification
             ->greeting("Hello {$notifiable->name},")
             ->line("Your appointment has been confirmed.")
             ->line("Facility: {$this->appointment->facility->name}")
-            ->line("Service: {$this->appointment->service->name}")
-            ->line("Date: {$this->appointment->appointment_date->toDateString()}")
-            ->line("Time: {$this->appointment->appointment_time}")
-            ->action('View Appointment', url("/patient/appointments/{$this->appointment->id}"))
-            ->line('Please arrive 10 minutes before your scheduled time.');
+            ->action('View Appointment', url("/patient/appointments/{$this->appointment->id}"));
     }
 }

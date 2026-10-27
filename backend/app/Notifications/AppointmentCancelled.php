@@ -7,13 +7,15 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-/** Sent to facility staff when a patient cancels an appointment. */
 class AppointmentCancelled extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly Appointment $appointment)
+    private $appointment;
+
+    public function __construct(Appointment $appointment)
     {
+        $this->appointment = $appointment;
     }
 
     public function via(object $notifiable): array
@@ -40,7 +42,6 @@ class AppointmentCancelled extends Notification
             ->greeting("Hello {$notifiable->name},")
             ->line("{$this->appointment->patient->name} has cancelled their appointment.")
             ->line("Date: {$this->appointment->appointment_date->toDateString()}")
-            ->line("Time: {$this->appointment->appointment_time}")
             ->line("Reason: " . ($this->appointment->cancellation_reason ?? 'No reason provided.'));
     }
 }
