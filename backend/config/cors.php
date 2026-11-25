@@ -1,23 +1,16 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
-    |--------------------------------------------------------------------------
-    | Allows the React frontend (running on a different port during development)
-    | to communicate with this Laravel API.
-    |
-    | In production, set FRONTEND_URL to your actual domain.
-    */
-
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
+    // Allow both port 5173 and 5174 (Vite sometimes uses 5174 if 5173 is taken)
     'allowed_origins' => [
-        env('FRONTEND_URL', 'http://localhost:5173'),
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://127.0.0.1:5173',
+        'http://127.0.0.1:5174',
     ],
 
     'allowed_origins_patterns' => [],
@@ -28,7 +21,6 @@ return [
 
     'max_age' => 0,
 
-    // This must be true for Sanctum SPA authentication to work
-    'supports_credentials' => true,
-
+    // Must be false when using token auth (not cookie/session)
+    'supports_credentials' => false,
 ];
