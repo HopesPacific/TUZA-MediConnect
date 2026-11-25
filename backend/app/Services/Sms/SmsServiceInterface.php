@@ -12,7 +12,7 @@ interface SmsServiceInterface
     /**
      * Send a plain SMS message to a phone number.
      *
-     * @param  string  $to       Recipient phone number (E.164 format e.g. +254712345678)
+     * @param  string  $to       Recipient phone number (E.164 format e.g. +250788123456)
      * @param  string  $message  The SMS body text
      * @return bool              True on success, false on failure
      */

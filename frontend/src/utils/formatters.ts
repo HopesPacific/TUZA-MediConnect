@@ -59,7 +59,7 @@ export function formatTime(timeStr: string | null | undefined): string {
  * Format currency.
  * 1500 → "KES 1,500"
  */
-export function formatCurrency(amount: number | null | undefined, currency = 'KES'): string {
+export function formatCurrency(amount: number | null | undefined, currency = 'RWF'): string {
   if (amount == null) return '—'
   return `${currency} ${amount.toLocaleString()}`
 }

@@ -39,8 +39,8 @@ class AppointmentTest extends TestCase
         $this->facility = HealthcareFacility::create([
             'name'      => 'Test Clinic',
             'type'      => 'clinic',
-            'location'  => 'Nairobi',
-            'phone'     => '+254700000001',
+            'location'  => 'Kigali',
+            'phone'     => '+250788000011',
             'is_active' => true,
         ]);
 
@@ -54,7 +54,7 @@ class AppointmentTest extends TestCase
             'facility_id'      => $this->facility->id,
             'service_id'       => $this->service->id,
             'price'            => 500,
-            'currency'         => 'KES',
+            'currency'         => 'RWF',
             'duration_minutes' => 30,
             'is_available'     => true,
         ]);

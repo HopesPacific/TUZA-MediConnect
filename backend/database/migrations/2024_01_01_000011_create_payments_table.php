@@ -26,7 +26,7 @@ return new class extends Migration
                   ->constrained('appointments')
                   ->nullOnDelete();
             $table->decimal('amount', 10, 2);
-            $table->string('currency', 3)->default('KES');
+            $table->string('currency', 3)->default('RWF');
             $table->string('provider', 50)->nullable();         // 'mpesa', 'stripe', 'mock'
             $table->string('transaction_ref', 255)->nullable()->unique(); // from provider
             $table->enum('status', [

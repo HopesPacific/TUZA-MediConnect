@@ -18,7 +18,7 @@ class AuthTest extends TestCase
         $response = $this->postJson('/api/v1/auth/register', [
             'name'                  => 'Test Patient',
             'email'                 => 'test@example.com',
-            'phone'                 => '+254712000001',
+            'phone'                 => '+250788000001',
             'password'              => 'Test@1234',
             'password_confirmation' => 'Test@1234',
         ]);
@@ -42,7 +42,7 @@ class AuthTest extends TestCase
         $response = $this->postJson('/api/v1/auth/register', [
             'name'                  => 'Another User',
             'email'                 => 'existing@example.com',
-            'phone'                 => '+254712000002',
+            'phone'                 => '+250788000002',
             'password'              => 'Test@1234',
             'password_confirmation' => 'Test@1234',
         ]);
@@ -57,7 +57,7 @@ class AuthTest extends TestCase
         $response = $this->postJson('/api/v1/auth/register', [
             'name'                  => 'Test User',
             'email'                 => 'test2@example.com',
-            'phone'                 => '+254712000003',
+            'phone'                 => '+250788000003',
             'password'              => 'weak',
             'password_confirmation' => 'weak',
         ]);

@@ -123,7 +123,7 @@ export default function FacilityServicesPage() {
               <div className="flex items-center gap-4 mb-3 pl-8">
                 {svc.price && (
                   <span className="text-sm font-semibold text-primary-700">
-                    {formatCurrency(svc.price, svc.currency ?? 'KES')}
+                    {formatCurrency(svc.price, svc.currency ?? 'RWF')}
                   </span>
                 )}
                 <span className="text-xs text-gray-400">{svc.duration_minutes ?? 30} min</span>
@@ -174,9 +174,9 @@ export default function FacilityServicesPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Price (KES)" type="number" placeholder="e.g. 1500"
+            <Input label="Price (RWF)" type="number" placeholder="e.g. 8000"
               value={price} onChange={e => setPrice(e.target.value)}
-              hint="Leave blank if free / on request" />
+              hint="Siga ubusa niba birangwa ubuntu / gusaba igiciro" />
             <Input label="Duration (minutes)" type="number"
               value={duration} onChange={e => setDuration(e.target.value)} />
           </div>

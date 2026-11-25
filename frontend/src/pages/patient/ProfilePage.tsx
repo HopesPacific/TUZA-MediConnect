@@ -157,7 +157,7 @@ export default function ProfilePage() {
                     ]}
                     {...register('gender')} />
                   <Input label="City / Location" leftIcon={<MapPin size={15} />}
-                    placeholder="e.g. Nairobi"
+                    placeholder="e.g. Kigali"
                     {...register('location')} />
                   <Input label="Full address"
                     placeholder="Street address"
@@ -212,10 +212,10 @@ export default function ProfilePage() {
                   This person will be contacted in case of a medical emergency.
                 </p>
                 <Input label="Contact name" leftIcon={<User size={15} />}
-                  placeholder="e.g. Jane Mwangi"
+                  placeholder="e.g. Uwimana Claudine"
                   {...register('emergency_contact_name')} />
                 <Input label="Contact phone" type="tel" leftIcon={<Phone size={15} />}
-                  placeholder="+254712345678"
+                  placeholder="+250788123456"
                   {...register('emergency_contact_phone')} />
                 <Input label="Relationship"
                   placeholder="e.g. Spouse, Parent, Sibling"

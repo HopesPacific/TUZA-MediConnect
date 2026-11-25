@@ -56,7 +56,7 @@ class RegisterRequest extends FormRequest
             'name.min'              => 'Full name must be at least 2 characters.',
             'email.unique'          => 'An account with this email already exists.',
             'phone.unique'          => 'An account with this phone number already exists.',
-            'phone.regex'           => 'Please enter a valid phone number (e.g. +254712345678).',
+            'phone.regex'           => 'Please enter a valid phone number (e.g. +250788123456).',
             'password.min'          => 'Password must be at least 8 characters.',
             'password.confirmed'    => 'Password confirmation does not match.',
             'password.regex'        => 'Password must contain at least one uppercase letter, one lowercase letter, and one number.',

@@ -22,7 +22,7 @@ return new class extends Migration
                   ->constrained('services')
                   ->cascadeOnDelete();
             $table->decimal('price', 10, 2)->nullable();         // null = free / price on request
-            $table->string('currency', 3)->default('KES');
+            $table->string('currency', 3)->default('RWF');
             $table->integer('duration_minutes')->default(30);    // appointment slot length
             $table->boolean('is_available')->default(true);
             $table->text('notes')->nullable();                   // facility-specific notes

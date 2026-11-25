@@ -15,9 +15,9 @@ interface LoginFormData {
 }
 
 const DEV_ACCOUNTS = [
-  { label: 'Admin',   email: 'admin@tuzamediconnect.com', password: 'Admin@1234'   },
-  { label: 'Staff',   email: 'staff@nairobi-clinic.com',  password: 'Staff@1234'  },
-  { label: 'Patient', email: 'john@example.com',          password: 'Patient@1234' },
+  { label: 'Admin',   email: 'admin@tuzamediconnect.rw', password: 'Admin@1234'   },
+  { label: 'Staff',   email: 'staff@kigali-clinic.rw',   password: 'Staff@1234'  },
+  { label: 'Patient', email: 'jean@example.com',          password: 'Patient@1234' },
 ]
 
 export default function LoginPage() {

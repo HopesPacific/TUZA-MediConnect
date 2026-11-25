@@ -41,7 +41,7 @@ class MockPaymentService implements PaymentServiceInterface
             'data'    => [
                 'transaction_ref' => $transactionRef,
                 'amount'          => 0,
-                'currency'        => 'KES',
+                'currency'        => 'RWF',
                 'paid_at'         => now()->toIso8601String(),
             ],
         ];

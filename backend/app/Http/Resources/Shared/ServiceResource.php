@@ -22,7 +22,7 @@ class ServiceResource extends JsonResource
             ),
             'currency'         => $this->when(
                 isset($this->pivot),
-                fn() => $this->pivot?->currency ?? 'KES'
+                fn() => $this->pivot?->currency ?? 'RWF'
             ),
             'duration_minutes' => $this->when(
                 isset($this->pivot),

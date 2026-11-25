@@ -1,12 +1,13 @@
 # Tuza MediConnect
 
-A healthcare digital platform connecting patients with healthcare facilities. Built with Laravel (backend API) and React (frontend SPA).
+A healthcare digital platform connecting patients with healthcare facilities in Rwanda. Built with Laravel (backend API) and React (frontend SPA).
 
 ![PHP](https://img.shields.io/badge/PHP-8.0-blue)
 ![Laravel](https://img.shields.io/badge/Laravel-9-red)
 ![React](https://img.shields.io/badge/React-18-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 ![Tests](https://img.shields.io/badge/tests-21%20passing-brightgreen)
+![Country](https://img.shields.io/badge/Country-Rwanda-blue)
 
 ---
 
@@ -14,22 +15,19 @@ A healthcare digital platform connecting patients with healthcare facilities. Bu
 
 ### Prerequisites
 
-Make sure you have these installed before starting:
-
-| Tool | Version | Check |
+| Tool | Version | Check command |
 |---|---|---|
 | PHP | >= 8.0 | `php --version` |
 | Composer | any | `composer --version` |
 | Node.js | >= 18 | `node --version` |
 | npm | any | `npm --version` |
-| MySQL | 8.0 | Via XAMPP, Laragon, or standalone |
+| MySQL | 8.0 | Via XAMPP or standalone |
 | Git | any | `git --version` |
 
 ---
 
 ### Step 1 — Clone or open the project
 
-If starting fresh:
 ```bash
 git clone https://github.com/yourusername/tuza-mediconnect.git
 cd "TUZA MEDI-SYSTEM"
@@ -41,24 +39,12 @@ cd "TUZA MEDI-SYSTEM"
 
 ```bash
 cd backend
-```
-
-**Install PHP dependencies:**
-```bash
 composer install
-```
-
-**Copy the environment file:**
-```bash
 copy .env.example .env
-```
-
-**Generate the application key:**
-```bash
 php artisan key:generate
 ```
 
-**Configure the database** — open `backend/.env` and update these lines:
+**Configure the database** — open `backend/.env` and set:
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -67,23 +53,18 @@ DB_DATABASE=tuza_mediconnect
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-> Leave `DB_PASSWORD` empty if you are using XAMPP default (no password).
 
-**Create the database** — open MySQL and run:
-```sql
-CREATE DATABASE tuza_mediconnect CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-Or via command line:
+**Create the database:**
 ```bash
-mysql -u root -e "CREATE DATABASE tuza_mediconnect CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -u root -h 127.0.0.1 -e "CREATE DATABASE tuza_mediconnect CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 ```
 
-**Run migrations and seed demo data:**
+**Run migrations and seed Rwandan demo data:**
 ```bash
 php artisan migrate --seed
 ```
 
-You should see:
+Expected output:
 ```
 ✓ Users seeded (admin, 2 staff, 3 patients)
 ✓ Services seeded (18 services)
@@ -94,8 +75,6 @@ You should see:
 ---
 
 ### Step 3 — Set up the Frontend
-
-Open a **new terminal window** and run:
 
 ```bash
 cd frontend
@@ -111,13 +90,7 @@ cd backend
 php artisan serve
 ```
 
-Expected output:
-```
-INFO  Server running on [http://127.0.0.1:8000].
-```
-
-Verify it works: open `http://localhost:8000/api/v1/health` in your browser.
-You should see: `"status": "operational"`
+Verify: open `http://localhost:8000/api/v1/health` → should show `"status": "operational"`
 
 ---
 
@@ -128,75 +101,90 @@ cd frontend
 npm run dev
 ```
 
-Expected output:
-```
-VITE v5.2.10  ready in 3078 ms
-➜  Local:   http://localhost:5173/
-```
-
 ---
 
 ### Step 6 — Open the App
 
-Open your browser and go to: **`http://localhost:5173`**
+**`http://localhost:5173`**
 
 ---
 
 ## 🔑 Demo Login Accounts
 
-> These accounts are created by the database seeder. For local development only.
+> Rwandan names and phone numbers. For local development only.
 
-| Role | Email | Password | Access |
+| Role | Email | Password | Facility |
 |---|---|---|---|
-| **Administrator** | admin@tuzamediconnect.com | Admin@1234 | Full platform management |
-| **Facility Staff** | staff@nairobi-clinic.com | Staff@1234 | Nairobi Family Clinic |
-| **Facility Staff** | staff@mombasa-hospital.com | Staff@1234 | Mombasa General Hospital |
-| **Patient** | john@example.com | Patient@1234 | Patient dashboard |
-| **Patient** | grace@example.com | Patient@1234 | Patient dashboard |
-| **Patient** | peter@example.com | Patient@1234 | Patient dashboard |
+| **Administrator** | admin@tuzamediconnect.rw | Admin@1234 | Platform admin |
+| **Facility Staff** | staff@kigali-clinic.rw | Staff@1234 | Kigali Family Clinic |
+| **Facility Staff** | staff@chuk-hospital.rw | Staff@1234 | CHUK Hospital |
+| **Patient** | jean@example.com | Patient@1234 | Jean Pierre Kagabo, Kigali |
+| **Patient** | marie@example.com | Patient@1234 | Marie Claire Mukamana, Butare |
+| **Patient** | patrick@example.com | Patient@1234 | Patrick Niyonzima, Musanze |
 
-**Tip:** On the login page, click the **Admin**, **Staff**, or **Patient** quick-fill button to auto-fill credentials instantly.
+**Tip:** On the login page, click **Admin**, **Staff**, or **Patient** to auto-fill instantly.
+
+---
+
+## 🏥 Rwandan Healthcare Facilities (Seed Data)
+
+| Facility | Type | Location | Verified |
+|---|---|---|---|
+| Kigali Family Clinic | Clinic | Kigali, KN 5 Rd | ✅ Yes |
+| Centre Hospitalier Universitaire de Kigali (CHUK) | Hospital | Kigali, Nyarugenge | ✅ Yes |
+| Butare Dental Centre | Dental | Huye District | ❌ Pending |
+| Musanze Community Pharmacy | Pharmacy | Musanze District | ❌ Pending |
+
+---
+
+## 💱 Rwanda-specific Configuration
+
+| Setting | Value |
+|---|---|
+| Currency | RWF (Rwandan Franc) |
+| Country code | +250 |
+| Language | Kinyarwanda (landing page) / English (app) |
+| Payment | MTN Mobile Money Rwanda (sandbox) |
+| SMS format | +250788XXXXXX |
 
 ---
 
 ## 🧭 Navigation Guide
 
-After logging in, you are automatically redirected to the correct dashboard based on your role.
-
-### As a Patient (`john@example.com`)
-| Page | URL | What it does |
+### As a Patient (`jean@example.com`)
+| Page | URL | Description |
 |---|---|---|
 | Dashboard | `/patient/dashboard` | Upcoming appointments, quick actions |
-| Appointments | `/patient/appointments` | List all appointments with status filter |
+| Appointments | `/patient/appointments` | List all with status filter |
 | Book | `/patient/book` | 4-step booking wizard |
-| Find Facilities | `/patient/facilities` | Search and browse healthcare facilities |
-| Services | `/patient/services` | Browse all 18+ service categories |
-| Notifications | `/patient/notifications` | Appointment alerts and updates |
-| Messages | `/patient/messages` | Message facility staff directly |
+| Facilities | `/patient/facilities` | Search Rwandan healthcare facilities |
+| Services | `/patient/services` | Browse 18+ service categories |
+| Notifications | `/patient/notifications` | Appointment alerts |
+| Messages | `/patient/messages` | Message facility staff |
 | Profile | `/patient/profile` | Edit personal and medical info |
 
-### As Facility Staff (`staff@nairobi-clinic.com`)
-| Page | URL | What it does |
+### As Facility Staff (`staff@kigali-clinic.rw`)
+| Page | URL | Description |
 |---|---|---|
-| Dashboard | `/facility/dashboard` | Today's schedule, stats |
+| Dashboard | `/facility/dashboard` | Today's schedule and stats |
 | Appointments | `/facility/appointments` | Confirm, reject, reschedule, complete |
 | Messages | `/facility/messages` | Inbox from patients |
 | Profile | `/facility/profile` | Edit facility information |
-| Services | `/facility/services` | Add/remove services with pricing |
+| Services | `/facility/services` | Add/remove services with RWF pricing |
 
-### As Administrator (`admin@tuzamediconnect.com`)
-| Page | URL | What it does |
+### As Administrator (`admin@tuzamediconnect.rw`)
+| Page | URL | Description |
 |---|---|---|
-| Dashboard | `/admin/dashboard` | Platform-wide stats and charts |
-| Users | `/admin/users` | Manage all user accounts |
-| Facilities | `/admin/facilities` | Verify and manage facilities |
-| Appointments | `/admin/appointments` | View all platform appointments |
-| Audit Logs | `/admin/audit-logs` | Security and activity log |
+| Dashboard | `/admin/dashboard` | Platform statistics and charts |
+| Users | `/admin/users` | Manage user accounts |
+| Facilities | `/admin/facilities` | Verify Rwandan facilities |
+| Appointments | `/admin/appointments` | Platform-wide view |
+| Audit Logs | `/admin/audit-logs` | Security log |
 
-### Public pages (no login required)
+### Public (no login)
 | Page | URL |
 |---|---|
-| Landing page | `/` |
+| Landing page (Kinyarwanda) | `/` |
 | Services catalog | `/services` |
 
 ---
@@ -204,36 +192,29 @@ After logging in, you are automatically redirected to the correct dashboard base
 ## 🛠 Troubleshooting
 
 ### MySQL won't connect
-If you see `SQLSTATE[HY000] [2002] No connection`:
-- Open **XAMPP Control Panel** → click **Start** next to MySQL
-- Or if using standalone MySQL: start the MySQL service
-- Then restart `php artisan serve`
+```
+SQLSTATE[HY000] [2002] No connection
+```
+→ Open XAMPP Control Panel → Start MySQL → restart `php artisan serve`
 
 ### Port already in use
-If port 8000 is taken:
 ```bash
 php artisan serve --port=8001
 ```
-Then update `frontend/.env`:
-```
-VITE_API_BASE_URL=http://localhost:8001/api/v1
-```
+Update `frontend/.env`: `VITE_API_BASE_URL=http://localhost:8001/api/v1`
 
 ### npm install fails
 ```bash
-cd frontend
 npm install --legacy-peer-deps
 ```
 
-### Migrations fail
-If you get a migration error, reset the database:
+### Reset database
 ```bash
 php artisan migrate:fresh --seed --force
 ```
 
-### Vite proxy errors (API calls fail)
-Make sure the backend is running on port 8000 before starting the frontend.
-The frontend proxies `/api` requests to `http://localhost:8000` via `vite.config.ts`.
+### Vite starts on wrong port (5174 instead of 5173)
+Another process is using 5173. Either stop it, or use 5174 — the app works on either port.
 
 ---
 
@@ -246,14 +227,6 @@ php vendor/phpunit/phpunit/phpunit tests/Feature/AppointmentTest.php --no-covera
 ```
 
 Expected: **21 tests, all passing**
-
-Tests cover:
-- Patient registration (valid, duplicate email, weak password)
-- Login (correct credentials, wrong password, inactive account)
-- Protected routes and role-based access
-- Appointment booking and double-booking prevention
-- Appointment cancellation rules
-- Staff confirm/reject workflows
 
 ---
 
@@ -269,30 +242,26 @@ TUZA MEDI-SYSTEM/
 │   │   │   ├── Facility/       Staff appointment management
 │   │   │   ├── Admin/          Admin management
 │   │   │   └── Shared/         Services, notifications, messages
-│   │   ├── Models/             Eloquent models (User, Appointment, etc.)
-│   │   ├── Services/           Business logic (AppointmentService, SMS, etc.)
+│   │   ├── Models/             Eloquent models
+│   │   ├── Services/           Business logic (AppointmentService, SMS, MTN MoMo)
 │   │   ├── Notifications/      In-app and email notifications
 │   │   └── Policies/           Authorization rules
 │   ├── database/
 │   │   ├── migrations/         17 database tables
-│   │   └── seeders/            Demo data
+│   │   └── seeders/            Rwandan demo data
 │   └── routes/api.php          45+ API routes
 │
 └── frontend/               React + Vite + TypeScript SPA
     └── src/
         ├── api/                Axios API clients
         ├── components/         Reusable UI components
-        │   ├── common/         Button, Input, Modal, Badge, etc.
-        │   ├── layout/         Sidebars, layouts per role
-        │   └── appointments/   Appointment cards
         ├── hooks/              Custom React hooks
         ├── pages/
-        │   ├── public/         Landing, Services
+        │   ├── public/         Landing (Kinyarwanda), Services
         │   ├── auth/           Login, Register
         │   ├── patient/        Patient pages
         │   ├── facility/       Staff pages
         │   └── admin/          Admin pages
-        ├── routes/             Protected/Guest route guards
         ├── store/              Zustand auth store
         └── types/              TypeScript interfaces
 ```
@@ -304,42 +273,66 @@ TUZA MEDI-SYSTEM/
 | Layer | Technology |
 |---|---|
 | Backend API | PHP 8.0, Laravel 9 |
-| Authentication | Laravel Sanctum (Bearer tokens) |
+| Authentication | Laravel Sanctum |
 | Database | MySQL 8 |
 | Frontend | React 18, Vite 5, TypeScript 5 |
 | Styling | Tailwind CSS 3 |
-| State management | Zustand |
-| HTTP client | Axios |
+| State | Zustand |
+| HTTP | Axios |
 | Routing | React Router v6 |
 | Forms | React Hook Form |
-| Notifications | Laravel Notifications (database + mail channels) |
-| SMS | Mock service (pluggable — Africa's Talking compatible) |
+| Notifications | Laravel Notifications (database + mail) |
+| SMS | Mock (MTN Rwanda compatible) |
+| Payment | MTN Mobile Money Rwanda (sandbox architecture) |
 | Testing | PHPUnit 9 |
 
 ---
 
 ## Features
 
-- ✅ Patient registration and secure login
+- ✅ Patient registration and login (Rwandan phone format +250)
 - ✅ Role-based access (Patient / Staff / Admin)
-- ✅ Browse and search healthcare facilities
+- ✅ Browse Rwandan healthcare facilities (Kigali, Butare, Musanze, Rubavu)
 - ✅ 4-step appointment booking wizard
 - ✅ Appointment lifecycle (pending → confirmed → completed)
-- ✅ Double-booking prevention (database + service layer)
-- ✅ In-app notification bell with real-time unread count
-- ✅ Email notification stubs (ready for SMTP config)
-- ✅ SMS notification architecture (mock, swap via .env)
+- ✅ Double-booking prevention
+- ✅ In-app notifications with bell and unread count
 - ✅ Direct messaging (patient ↔ facility staff, threaded)
 - ✅ Patient profile with completion tracking
-- ✅ Facility service management with pricing
+- ✅ Facility service management with RWF pricing
+- ✅ MTN Mobile Money Rwanda sandbox integration
 - ✅ Admin dashboard with platform statistics
-- ✅ Audit log for all sensitive actions
-- ✅ USSD endpoint architecture (ready for provider)
+- ✅ Audit log
+- ✅ Landing page in Kinyarwanda
+- ✅ Currency in RWF (Rwandan Franc)
+
+---
+
+## MTN Mobile Money Rwanda
+
+The payment architecture is built for **MTN Mobile Money Rwanda**.
+
+To activate real payments:
+1. Register at [momodeveloper.mtn.com](https://momodeveloper.mtn.com)
+2. Subscribe to the **Collection** product
+3. Add to `backend/.env`:
+```
+PAYMENT_DRIVER=mtn
+MTN_MOMO_BASE_URL=https://sandbox.momodeveloper.mtn.com
+MTN_MOMO_COLLECTION_PRIMARY_KEY=your-subscription-key
+MTN_MOMO_API_USER=your-api-user-uuid
+MTN_MOMO_API_KEY=your-api-key
+MTN_MOMO_ENVIRONMENT=sandbox
+MTN_MOMO_CURRENCY=RWF
+MTN_MOMO_CALLBACK_URL=https://yourdomain.rw/api/mtn/callback
+```
+
+No code changes needed — `MtnMobileMoneyService` is already wired in.
 
 ---
 
 ## Author
 
-Built as a portfolio project demonstrating professional full-stack development with Laravel and React.
+Built as a portfolio project for Rwandan hospital implementation.
 
 > **Disclaimer:** This is a demonstration project. It is not a real medical service.

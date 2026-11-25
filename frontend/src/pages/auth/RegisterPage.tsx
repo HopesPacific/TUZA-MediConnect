@@ -115,7 +115,7 @@ export default function RegisterPage() {
           <div className="space-y-4">
             <Input
               label="Full name"
-              placeholder="John Mwangi"
+              placeholder="Jean Pierre Kagabo"
               autoComplete="name"
               leftIcon={<User size={16} />}
               error={errors.name?.message}
@@ -143,15 +143,15 @@ export default function RegisterPage() {
             <Input
               label="Phone number"
               type="tel"
-              placeholder="+254712345678"
+              placeholder="+250788123456"
               autoComplete="tel"
               leftIcon={<Phone size={16} />}
-              hint="Include country code, e.g. +254712345678"
+              hint="Shyiramo code y'igihugu, urugero: +250788123456"
               error={errors.phone?.message}
               required
               {...register('phone', {
                 required: 'Phone number is required.',
-                pattern: { value: /^\+?[1-9]\d{7,14}$/, message: 'Enter a valid phone number with country code.' },
+                pattern: { value: /^\+?[1-9]\d{7,14}$/, message: 'Injira nimero y\'imodoka nzima hamwe na code y\'igihugu.' },
               })}
             />
 
@@ -225,7 +225,7 @@ export default function RegisterPage() {
 
             <Input
               label="Location / City"
-              placeholder="e.g. Nairobi"
+              placeholder="e.g. Kigali"
               leftIcon={<MapPin size={16} />}
               error={errors.location?.message}
               {...register('location')}
@@ -253,7 +253,7 @@ export default function RegisterPage() {
 
             <Input
               label="Emergency contact name"
-              placeholder="e.g. Jane Mwangi"
+              placeholder="e.g. Uwimana Claudine"
               leftIcon={<User size={16} />}
               error={errors.emergency_contact_name?.message}
               {...register('emergency_contact_name')}
