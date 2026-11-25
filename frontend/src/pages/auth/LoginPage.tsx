@@ -14,20 +14,29 @@ interface LoginFormData {
   remember: boolean
 }
 
+const DEV_ACCOUNTS = [
+  { label: 'Admin',   email: 'admin@tuzamediconnect.com', password: 'Admin@1234'   },
+  { label: 'Staff',   email: 'staff@nairobi-clinic.com',  password: 'Staff@1234'  },
+  { label: 'Patient', email: 'john@example.com',          password: 'Patient@1234' },
+]
+
 export default function LoginPage() {
   const { login, isLoading } = useAuth()
   const [serverError, setServerError] = useState<string | null>(null)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({ defaultValues: { remember: false } })
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm<LoginFormData>({
+    defaultValues: { remember: false },
+  })
 
   const onSubmit = async (data: LoginFormData) => {
     setServerError(null)
     const ok = await login(data)
     if (!ok) setServerError('Invalid email or password. Please try again.')
+  }
+
+  const fillAccount = (email: string, password: string) => {
+    setValue('email', email)
+    setValue('password', password)
   }
 
   return (
@@ -44,6 +53,7 @@ export default function LoginPage() {
       }
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+
         {serverError && (
           <Alert variant="error" dismissible onDismiss={() => setServerError(null)}>
             {serverError}
@@ -77,64 +87,48 @@ export default function LoginPage() {
           required
           {...register('password', {
             required: 'Password is required.',
-            minLength: { value: 6, message: 'Password must be at least 6 characters.' },
           })}
         />
 
-        {/* Remember me + Forgot password */}
         <div className="flex items-center justify-between">
           <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer select-none">
             <input
               type="checkbox"
-              className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+              className="w-4 h-4 rounded border-gray-300 text-primary-600"
               {...register('remember')}
             />
             Remember me
           </label>
-          <Link
-            to="/forgot-password"
-            className="text-sm text-primary-600 hover:underline"
-          >
-            Forgot password?
-          </Link>
+          <span className="text-sm text-gray-400">Forgot password? Contact admin.</span>
         </div>
 
         <Button type="submit" fullWidth isLoading={isLoading} size="lg">
           Sign in
         </Button>
 
-        {/* Divider */}
+        {/* Dev quick-fill */}
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-200" />
           </div>
-          <div className="relative flex justify-center text-xs text-gray-400 bg-white px-2">
-            Development accounts
+          <div className="relative flex justify-center">
+            <span className="text-xs text-gray-400 bg-white px-2">Dev accounts</span>
           </div>
         </div>
 
-        {/* Quick fill dev credentials */}
         <div className="grid grid-cols-3 gap-2">
-          {[
-            { label: 'Admin',   email: 'admin@tuzamediconnect.com', password: 'Admin@1234'   },
-            { label: 'Staff',   email: 'staff@nairobi-clinic.com',   password: 'Staff@1234'  },
-            { label: 'Patient', email: 'john@example.com',           password: 'Patient@1234' },
-          ].map(acc => (
+          {DEV_ACCOUNTS.map(acc => (
             <button
               key={acc.label}
               type="button"
-              onClick={() => {
-                const emailInput = document.querySelector<HTMLInputElement>('#email_address')
-                const passInput  = document.querySelector<HTMLInputElement>('#password')
-                if (emailInput) { emailInput.value = acc.email; emailInput.dispatchEvent(new Event('input', { bubbles: true })) }
-                if (passInput)  { passInput.value  = acc.password; passInput.dispatchEvent(new Event('input', { bubbles: true })) }
-              }}
-              className="px-2 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-primary-300 transition-colors"
+              onClick={() => fillAccount(acc.email, acc.password)}
+              className="px-2 py-2 text-xs rounded-xl border border-gray-200 text-gray-500 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700 transition-colors font-medium"
             >
               {acc.label}
             </button>
           ))}
         </div>
+
       </form>
     </AuthLayout>
   )

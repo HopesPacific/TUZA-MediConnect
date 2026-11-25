@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Calendar, Search, User, Bell, MessageSquare, Stethoscope, CreditCard, LogOut } from 'lucide-react'
+import { LayoutDashboard, Calendar, Search, User, Bell, MessageSquare, Stethoscope, LogOut } from 'lucide-react'
 import { clsx } from 'clsx'
 import { useAuth } from '@/hooks/useAuth'
 import { useCurrentUser } from '@/store/authStore'
@@ -11,7 +11,6 @@ const navItems = [
   { to: '/patient/services',      icon: Stethoscope,     label: 'Services'        },
   { to: '/patient/notifications', icon: Bell,            label: 'Notifications'   },
   { to: '/patient/messages',      icon: MessageSquare,   label: 'Messages'        },
-  { to: '/patient/payments',      icon: CreditCard,      label: 'Payments'        },
   { to: '/patient/profile',       icon: User,            label: 'My Profile'      },
 ]
 
@@ -21,7 +20,6 @@ export function PatientSidebar() {
 
   return (
     <aside className="hidden lg:flex flex-col w-60 min-h-screen bg-white border-r border-gray-100 py-6">
-      {/* Logo */}
       <div className="px-5 mb-8">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
@@ -34,7 +32,6 @@ export function PatientSidebar() {
         </div>
       </div>
 
-      {/* User info */}
       <div className="px-5 mb-6">
         <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
           <div className="w-9 h-9 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -49,7 +46,6 @@ export function PatientSidebar() {
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 px-3 space-y-0.5">
         {navItems.map(({ to, icon: Icon, label }) => (
           <NavLink key={to} to={to}
@@ -63,7 +59,6 @@ export function PatientSidebar() {
         ))}
       </nav>
 
-      {/* Sign out */}
       <div className="px-3 mt-4">
         <button onClick={logout}
           className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors">

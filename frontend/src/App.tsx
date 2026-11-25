@@ -20,7 +20,6 @@ import ProfilePage           from '@/pages/patient/ProfilePage'
 import PatientServicesPage   from '@/pages/patient/ServicesPage'
 import NotificationsPage     from '@/pages/patient/NotificationsPage'
 import MessagesPage          from '@/pages/patient/MessagesPage'
-import PaymentsPage          from '@/pages/patient/PaymentsPage'
 
 // Facility staff
 import FacilityDashboard        from '@/pages/facility/FacilityDashboard'
@@ -60,7 +59,6 @@ export default function App() {
         <Route path="services"             element={<PatientServicesPage />} />
         <Route path="notifications"        element={<NotificationsPage />} />
         <Route path="messages"             element={<MessagesPage />} />
-        <Route path="payments"             element={<PaymentsPage />} />
         <Route path="profile"              element={<ProfilePage />} />
         <Route index element={<Navigate to="dashboard" replace />} />
       </Route>
